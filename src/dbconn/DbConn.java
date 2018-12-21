@@ -6,6 +6,7 @@
 package dbconn;
 
 import java.sql.*;
+import java.util.Scanner;
 
 /**
  *
@@ -29,6 +30,24 @@ public class DbConn {
     
     public static void main(String[] args) {
         OpenConnection();
+        System.out.println("Who are you looking for?\n");
+        Scanner scan = new Scanner(System.in);
+        String string = scan.next();
+        checkDatabaseFor(string);
+    }
+    private static void checkDatabaseFor(String input){
+        String sql = "SELECT * FROM lookAtThisMate WHERE strings = '" + input + "'";
+        try{
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+        while (rs.next()){
+            String id = rs.getString("ID");
+            System.out.println(id);
+            }
+        con.close();
+        }
+        catch(Exception e){
+            System.out.println(e);}
     }
     
 }
